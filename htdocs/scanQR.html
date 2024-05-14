@@ -1,0 +1,87 @@
+<script src="html5-qrcode.min.js"></script>
+<style>
+  .row {
+  display: flex; /* Maintain flexbox layout */
+  justify-content: space-between; /* Distribute columns evenly */
+  width: 100%; /* Ensure it fills the available width */
+  margin: 0 auto; /* Center the row horizontally */
+  padding: 20px; /* Add some padding for spacing */
+}
+
+/* Style the column for the QR reader */
+.col {
+  flex: 1; /* Make both columns take up equal space */
+  text-align: center; /* Center content within the column */
+}
+
+/* Style the QR reader element */
+#reader {
+  width: 250px; /* Adjust width as needed */
+  height: 250px; /* Adjust height as needed */
+  background-color: #eee; /* Provide a light background */
+  border: 1px solid #ccc; /* Add a subtle border */
+  margin: 0 auto; /* Center the reader within the column */
+}
+
+/* Style the "Scan Result" heading */
+h4 {
+  margin-bottom: 10px; /* Add some space below the heading */
+  font-size: 18px; /* Adjust font size if needed */
+  font-weight: bold; /* Make the text bolder */
+}
+
+/* Style the result container */
+#result {
+  min-height: 100px; /* Set a minimum height */
+  padding: 15px; /* Add some padding for readability */
+  border: 1px solid #ddd; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
+  text-align: center; /* Center the scanned content */
+  font-size: 16px; /* Adjust font size for result text */
+}
+
+/* Style the result when successful (using a class) */
+.result {
+  background-color: green; /* Green background for success */
+  color: #fff; /* White text for better contrast */
+}
+</style>
+<div class="row">
+  <div class="col">
+    <div style="width:500px;" id="reader"></div>
+  </div>
+  <div class="col" style="padding:30px;">
+    <h4>SCAN RESULT</h4>
+    <div id="result">Result Here</div>
+  </div>
+</div>
+<script type="text/javascript">
+function onScanSuccess(qrCodeMessage) {
+    document.getElementById('result').innerHTML = '<span class="result">'+qrCodeMessage+'</span>';
+}
+function onScanError(errorMessage) {
+  console.error("Unable to scan");
+}
+var html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", { fps: 10, qrbox: 250 });
+const Number=html5QrcodeScanner.render(onScanSuccess, onScanError);
+</script>
+<form action="Entry.php" method="post"> 
+  <label for="enroll_no">Enrollment Number:</label>
+    <br />
+  <input type="text" id="enroll_no" name="enroll_no">
+    <br />
+  <label for="qr_no">QR Number:</label>
+    <br />
+  <input type="text" id="qr_no" name="qr_no">
+    <br />
+  <label for="place">Place:</label>
+    <br />
+  <input type="text" id="place" name="place">
+    <br />
+  <label for="room_no">Room Number:</label>
+    <br />
+  <input type="text" id="room_no" name="room_no">
+    <br />
+  <button type="submit">Submit</button>
+</form>
